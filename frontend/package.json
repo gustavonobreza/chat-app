@@ -1,19 +1,15 @@
 {
-  "name": "chat-app",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "chat-front",
+  "version": "0.0.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gustavonobreza/chat-app.git"
+  "devDependencies": {
+    "vite": "^2.5.4"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/gustavonobreza/chat-app/issues"
-  },
-  "homepage": "https://github.com/gustavonobreza/chat-app#readme"
+  "dependencies": {
+    "socket.io-client": "^4.2.0"
+  }
 }
