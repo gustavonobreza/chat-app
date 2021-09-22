@@ -1,15 +1,23 @@
-import { createServer } from "http";
+console.clear()
 import { Server } from "socket.io";
 
-const httpServer = createServer();
-const io = new Server(httpServer, { cors: { credentials: false, origin: "*" } });
+const io = new Server(3388, { cors: { origin: '*' } });
 
 io.on("connection", (socket) => {
-  console.log("Client connected, socket: ", socket.id);
+  console.log("[SocketIO] Client connected, socket: ", socket.id);
+
+  socket.on("ping", (cb) => {
+    console.log("ping");
+    cb();
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`disconnect ${socket.id}`);
+  });
+
+  socket.emit("msg", "UUUUUUUUUUUUi !")
+  setInterval(() => {
+    socket.emit("msg", "olááááá !!!")
+  }, 1000);
 });
 
-io.on("ola", (data) => {
-  console.log(data);
-})
-
-httpServer.listen(3388);
