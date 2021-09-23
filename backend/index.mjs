@@ -1,7 +1,6 @@
-console.clear()
 import { Server } from "socket.io";
 
-const io = new Server(3388, { cors: { origin: '*' } });
+const io = new Server(3388, { cors: { origin: "*" } });
 
 io.on("connection", (socket) => {
   console.log("[SocketIO] Client connected, socket: ", socket.id);
@@ -15,9 +14,8 @@ io.on("connection", (socket) => {
     console.log(`disconnect ${socket.id}`);
   });
 
-  socket.emit("msg", "UUUUUUUUUUUUi !")
-  setInterval(() => {
-    socket.emit("msg", "olááááá !!!")
-  }, 1000);
+  socket.on("msg", (data) => {
+    console.log("[MESSAGE]", data);
+    socket.broadcast.emit("msg", data);
+  });
 });
-
