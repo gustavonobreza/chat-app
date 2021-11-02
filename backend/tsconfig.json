@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "outDir": "dist",
+    "target": "ES2019",
+    "module": "nodenext",
+    "strict": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "watch": true
+  },
+  "include": [
+    "./index.ts",
+    "**/**.ts",
+    "**/**.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "webpack.config.js",
+    "dist/"
+  ]
+}
