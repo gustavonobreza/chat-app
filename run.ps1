@@ -1,0 +1,1 @@
+npx concurrently -n back,site,cdn "cd backend && npm run dev" "cd frontend && npm run build" "cd frontend/dist && caddy file-server"
