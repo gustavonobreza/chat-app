@@ -8,9 +8,12 @@
     "target": "ES2019",
     "module": "nodenext",
     "strict": true,
-    "baseUrl": ".",
-    "rootDir": ".",
-    "watch": true
+    "baseUrl": "src",
+    "rootDir": "src",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ]
   },
   "include": [
     "./index.ts",
