@@ -1,8 +1,8 @@
 import "./index.css";
-import { io } from "socket.io-client";
-import { IMessage } from "./types";
+import { io, Socket } from "socket.io-client";
+import { Events, IMessage } from "./types";
 
-const socket = io("ws://localhost:3388/", {});
+const socket: Socket<Events> = io("ws://localhost:3388/", {});
 
 const msgDisplay = document.querySelector("#messages");
 const inputDisplay = document.querySelector("#write") as HTMLInputElement;
@@ -33,8 +33,7 @@ btnDisplay.addEventListener("click", () => {
   const msg: IMessage = {
     message: val,
     date: new Date(),
-    username:
-      username || (() => "_" + Math.random().toString(36).substr(2, 9))(),
+    username: username || "_" + Math.random().toString(36).slice(2, 9),
   };
 
   if (!username) username = msg.username;

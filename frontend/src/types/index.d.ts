@@ -5,3 +5,7 @@ export interface IMessage {
   username: string;
   message: string;
 }
+
+export interface Events {
+  msg: (data: IMessage) => void;
+}

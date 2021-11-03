@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production --no-devtool --node-env production",
-    "dev": "webpack serve"
+    "dev": "webpack serve",
+    "start": "cd dist && caddy file-server"
   },
   "repository": {
     "type": "git",
