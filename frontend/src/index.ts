@@ -1,3 +1,4 @@
+import "./index.css";
 import { io } from "socket.io-client";
 import { IMessage } from "./types";
 
@@ -12,6 +13,7 @@ let username: string;
 // INIT
 socket.on("connect", () => {
   console.log(`Connect, id -> ${socket.id}`);
+  console.log(`${socket.id} is ok`);
 });
 
 socket.on("msg", (msg: IMessage) => {

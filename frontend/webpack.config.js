@@ -1,44 +1,71 @@
-const path = require("path")
-module.exports = {
-  entry: "./index.ts",
+const path = require("path");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+
+const pages = ["index"];
+
+/**
+ * @type {webpack.Configuration}
+ */
+const configs = {
+  entry: pages.reduce((config, page) => {
+    config[page] = `./src/${page}.ts`;
+    return config;
+  }, {}),
   output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name].js",
   },
-  mode: "production",
-  node: false,
-  stats: 'minimal',
+  target: ["web", "es7"],
+  stats: "verbose",
+  mode: "development",
+  devServer: {
+    static: path.resolve(__dirname, "./dist"),
+    compress: true,
+    port: 80,
+    open: true,
+  },
+  devtool: "source-map",
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
+        test: /\.(js|jsx|tsx|ts)$/,
         exclude: /node_modules/,
+        loader: "babel-loader",
       },
-    ]
+      {
+        test: /\.css$/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+              modules: true,
+            },
+          },
+        ],
+      },
+    ],
   },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
-  },
-  watch: true,
-  watchOptions: {
-    ignored: /node_modules/,
-  },
-  // module: {
-  //   rules: [
-  //     {
-  //       test: /\.m?js$/,
-  //       use: {
-  //         loader: "babel-loader",
-  //         options: {
-  //           presets: ["@babel/preset-env"],
-  //         },
-  //       },
-  //     },
-  //     {
-  //       test: /\.js$/,
-  //       loader: "webpack-remove-debug", // remove "debug" package
-  //     },
-  //   ],
-  // },
+  plugins: [new webpack.ProgressPlugin(), new CleanWebpackPlugin()].concat(
+    pages.map(
+      (page) =>
+        new HtmlWebpackPlugin({
+          inject: true,
+          template: `./src/${page}.html`,
+          filename: `${page}.html`,
+          chunks: [page],
+        })
+    )
+  ),
 };
+
+// if (process.env.NODE_ENV !== "production") {
+//   configs.plugins.push(
+//     new webpack.SourceMapDevToolPlugin({ publicPath: "./dist" })
+//   );
+// }
+
+module.exports = configs;
