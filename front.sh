@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cd frontend && npm run build
+cd frontend && npm run dev

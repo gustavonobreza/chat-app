@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-(trap 'kill 0' SIGINT; cd backend && npm run dev & cd frontend && npm run build & cd frontend/dist && caddy file-server)
+(trap 'kill 0' SIGINT; cd backend && npm run dev & cd frontend && npm run build)
