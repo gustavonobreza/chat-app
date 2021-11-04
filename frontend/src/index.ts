@@ -9,6 +9,7 @@ const inputDisplay = document.querySelector("#write") as HTMLInputElement;
 const btnDisplay = document.querySelector("#send");
 
 let username: string;
+const messages: IMessage[] = [];
 
 // INIT
 socket.on("connect", () => {
@@ -16,7 +17,10 @@ socket.on("connect", () => {
   console.log(`${socket.id} is ok`);
 });
 
+socket.emit("restore", messages.pop());
+
 socket.on("msg", (msg: IMessage) => {
+  messages.push(msg);
   const el = document.createElement("div");
   el.innerText = msg.username.trim() + " - " + msg.message;
   msgDisplay.appendChild(el);
@@ -39,6 +43,7 @@ btnDisplay.addEventListener("click", () => {
   if (!username) username = msg.username;
 
   socket.emit("msg", msg);
+  messages.push(msg);
 
   inputDisplay.value = "";
 

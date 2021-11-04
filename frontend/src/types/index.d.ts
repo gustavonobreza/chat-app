@@ -7,5 +7,7 @@ export interface IMessage {
 }
 
 export interface Events {
+  init: () => void;
   msg: (data: IMessage) => void;
+  restore: (lastMsg: IMessage) => void;
 }

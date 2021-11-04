@@ -1,22 +1,34 @@
 import { Server } from "socket.io";
-import type { IServer } from "./types";
+import type { IMessage, IServer } from "./types";
 
 const io: IServer = new Server(3388, { cors: { origin: "*" } });
+const cache = new Array<IMessage>();
 
 io.on("connection", (socket) => {
   console.log("[CONNECTED] Socket: ", socket.id);
 
-  const msg = {
-    date: new Date(),
-    username: "server-guzin",
-    message: "Hello world!",
-  };
-
-  socket.emit("msg", msg);
-
   socket.on("msg", (msg) => {
-    console.log("recived", msg);
     socket.broadcast.emit("msg", msg);
+    cache.push(msg);
+  });
+
+  socket.on("init", () => {
+    socket.emit("init", cache);
+  });
+
+  socket.on("restore", ({ date, message, username }) => {
+    const messageCompareIndex = cache.findIndex(
+      (msg) =>
+        msg.date === date &&
+        msg.message === message &&
+        msg.username === username
+    );
+
+    if (messageCompareIndex !== -1) {
+      const msgs = cache.slice(messageCompareIndex, cache.length);
+
+      socket.emit("restore", msgs);
+    }
   });
 
   socket.on("disconnect", () => {

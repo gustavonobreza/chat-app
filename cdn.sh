@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cd frontend && npm run build && cd dist && caddy file-server
+cd frontend && cd dist && caddy file-server

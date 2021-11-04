@@ -7,13 +7,20 @@ export interface IMessage {
 }
 
 export type IBasicEvent = { [event: string]: (...args: any[]) => void };
+
 export type IBasicEventNoResponse = { [event: string]: any };
 
 export interface ListenEvents {
+  init: () => void;
   msg: (data: IMessage) => void;
+  restore: (lastMsg: IMessage) => void;
 }
 
-export type EmitEvents = ListenEvents;
+export type EmitEvents = {
+  init: (data: IMessage[]) => void;
+  msg: (data: IMessage) => void;
+  restore: (data: IMessage[]) => void;
+};
 
 export interface ServerSideEvents {
   connection: (socket: Socket) => IServer;
