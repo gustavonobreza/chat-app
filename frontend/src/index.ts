@@ -1,8 +1,8 @@
 import "./index.css";
 import { io, Socket } from "socket.io-client";
-import { Events, IMessage } from "./types";
+import { Events, IMessage, Listen } from "./types";
 
-const socket: Socket<Events> = io("ws://localhost:3388/", {});
+const socket: Socket<Listen, Events> = io("ws://localhost:3388/", {});
 
 const msgDisplay = document.querySelector("#messages");
 const inputDisplay = document.querySelector("#write") as HTMLInputElement;
@@ -17,15 +17,30 @@ socket.on("connect", () => {
   console.log(`${socket.id} is ok`);
 });
 
-socket.emit("restore", messages.pop());
+if (messages.length) {
+  socket.emit("restore", messages[messages.length - 1]);
+} else {
+  socket.emit("restore");
+}
+
+socket.on("restore", (msgs) => {
+  if (Array.isArray(msgs)) {
+    msgs.forEach((msg) => {
+      pushMessages(msg);
+    });
+  }
+});
 
 socket.on("msg", (msg: IMessage) => {
+  pushMessages(msg);
+});
+
+function pushMessages(msg: IMessage) {
   messages.push(msg);
   const el = document.createElement("div");
   el.innerText = msg.username.trim() + " - " + msg.message;
   msgDisplay.appendChild(el);
-  console.log("Recived", msg);
-});
+}
 
 btnDisplay.addEventListener("click", () => {
   const val = inputDisplay.value;

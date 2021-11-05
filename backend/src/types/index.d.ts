@@ -13,7 +13,7 @@ export type IBasicEventNoResponse = { [event: string]: any };
 export interface ListenEvents {
   init: () => void;
   msg: (data: IMessage) => void;
-  restore: (lastMsg: IMessage) => void;
+  restore: (lastMsg?: IMessage) => void;
 }
 
 export type EmitEvents = {

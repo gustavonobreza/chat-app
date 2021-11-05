@@ -18,7 +18,7 @@ const configs = {
     filename: "[name].js",
   },
   target: ["web", "es7"],
-  stats: "verbose",
+  stats: "minimal",
   mode: "development",
   devServer: {
     static: path.resolve(__dirname, "./dist"),

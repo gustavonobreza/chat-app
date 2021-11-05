@@ -16,7 +16,14 @@ io.on("connection", (socket) => {
     socket.emit("init", cache);
   });
 
-  socket.on("restore", ({ date, message, username }) => {
+  socket.on("restore", (last) => {
+    if (last === undefined) {
+      socket.emit("restore", cache);
+      return;
+    }
+
+    const { date, message, username } = last;
+
     const messageCompareIndex = cache.findIndex(
       (msg) =>
         msg.date === date &&
